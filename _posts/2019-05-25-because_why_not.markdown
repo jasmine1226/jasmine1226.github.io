@@ -1,7 +1,7 @@
 ---
 layout: post
-title:      "Because Why Not"
-date:       2019-05-25 21:37:24 +0000
+title:      "because why not"
+date:       2019-05-25 17:37:25 -0400
 permalink:  because_why_not
 ---
 
