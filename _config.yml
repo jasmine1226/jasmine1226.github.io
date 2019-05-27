@@ -1,11 +1,11 @@
 # Site settings
-author: Jasmine Chen
-title: 
+author: jasmine
+title: my blog title
 header-img: img/home-bg.png
 email: jasmine1226@gmail.com
-copyright_name: Jasmine Chen
+copyright_name: jasmine
 description: > # this means to ignore newlines until "baseurl:"
-  
+  //this is my blog subtitle
 baseurl: "" # the subpath of your site, e.g. /blog
 twitter_username: 
 github_username:  jasmine1226
