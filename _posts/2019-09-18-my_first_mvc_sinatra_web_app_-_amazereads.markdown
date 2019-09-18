@@ -1,7 +1,7 @@
 ---
 layout: post
 title:      "my first mvc sinatra web app - amazereads"
-date:       2019-09-18 07:16:52 +0000
+date:       2019-09-18 03:16:53 -0400
 permalink:  my_first_mvc_sinatra_web_app_-_amazereads
 ---
 
