@@ -1,7 +1,7 @@
 ---
 layout: post
-title:      "rails api & javacript"
-date:       2020-01-27 03:17:09 +0000
+title:      "rails api and javacript frontend"
+date:       2020-01-26 22:17:10 -0500
 permalink:  rails_api_and_javacript
 ---
 
