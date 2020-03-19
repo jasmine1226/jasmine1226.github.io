@@ -1,7 +1,7 @@
 ---
 layout: post
 title:      "Handling Many-to-Many Relationships in React/Redux/Rails API Web App"
-date:       2020-03-19 04:25:12 +0000
+date:       2020-03-19 00:25:14 -0400
 permalink:  handling_many-to-many_relationships_in_react_redux_rails_api_web_app
 ---
 
