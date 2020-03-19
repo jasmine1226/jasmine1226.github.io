@@ -26,40 +26,40 @@ You can reference this helpful article for details setup instructions: https://m
 1. Set up many-to-many relationship through joint table CareerPathCourse
 
 // models/Course.rb
-
+```
 class Course < ApplicationRecord
   has_many :career_path_courses
   has_many :career_paths, through: :career_path_courses
 end
-
+```
 // models/CareerPath.rb
-
+```
 class CareerPath < ApplicationRecord
   has_many :career_path_courses
   has_many :courses, through: :career_path_courses
   accepts_nested_attributes_for :courses
 end
-
+```
 // models/CareerPathCourse.rb
-
+```
 class CareerPathCourse < ApplicationRecord
   belongs_to :career_path
   belongs_to :course
 end
-
+```
 Since I'm planning to display, add and delete courses associated with one career path,  I only added "accepts_nested_attributes_for :courses" for career
 
 2. Include career_path.courses when rendering json data.
 
 // career_path_controller.rb
-
+```
 def index
       @career_paths = CareerPath.all
       
       render json: @career_paths.to_json(:include => {
         :courses => {:only => [:id, :title, :url, :length]}})
 end
-
+```
 Do this for other controller actions as well.
 
 3. Add custom conroller actions to add and delete a course
@@ -116,9 +116,9 @@ const handleDelete = event => {
       props.fetchCareerPaths();
     });
   };
-  ```
+  
 <Button variant="primary" data-id={course.id} onClick={event => handleDelete(event)} > Delete </Button>
-
+```
 Add handleDelete event and add it to the button. Make sure your fetch URL matches the custom routes you made in step 4.
 One thing to note is, I added "props.fetchCareerPaths()" after the deletion alert so that the page will refresh and diplay the updated data. This works for both add a course and delete a course.
 
