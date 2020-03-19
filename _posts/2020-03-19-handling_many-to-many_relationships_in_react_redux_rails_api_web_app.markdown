@@ -58,51 +58,52 @@ def index
       
       render json: @career_paths.to_json(:include => {
         :courses => {:only => [:id, :title, :url, :length]}})
-    end
+end
 
 Do this for other controller actions as well.
 
 3. Add custom conroller actions to add and delete a course
 
 // career_path_controller.rb
+  ```
+	def add_course
+		@career_path = CareerPath.find(params[:id])
+		if params[:course_id]
+			course = Course.find(params[:course_id])
+			@career_path.courses.push(course)
+			render json: @career_path.to_json(:include => {
+				:courses => {:only => [:id, :title, :url, :length]}}), status: 200
+		else
+			render json: @career_path.errors, status: :unprocessable_entity
+		end
+	end
 
-    def add_course
-		  @career_path = CareerPath.find(params[:id])
-      if params[:course_id]
-        course = Course.find(params[:course_id])
-        @career_path.courses.push(course)
-        render json: @career_path.to_json(:include => {
-          :courses => {:only => [:id, :title, :url, :length]}}), status: 200
-      else
-        render json: @career_path.errors, status: :unprocessable_entity
-      end
-    end
-		
-   def delete_course
+   
+def delete_course
       @career_path = CareerPath.find(params[:id])
       course = Course.find(params[:course_id])
       if course
         @career_path.courses.delete(course)
       end
-    end
+    end  ```
 		
 4. Add custom routes mapping to the custom actions
 
 // config/routes.rb
-
+  ```
       resources :career_paths do
           collection do
             patch ':id/courses/:course_id', action: :add_course
             delete ':id/courses/:course_id', action: :delete_course
           end
       end
-		
+		  ```
 		There are other ways to do this, but I wanted to the routes to be "career_paths/career_path_id/courses/course_id" so I decided to go with this hard-coded routes. You can also use "member" instead of "collection" but it will give you slightly different results.
 
 5. Delete a course from career path
 
 // components/courses/CourseTable.js  >> or wherever you have your course delete button
-
+  ```
 const handleDelete = event => {
     console.log(event.target.dataset.id);
     fetch(
@@ -115,7 +116,7 @@ const handleDelete = event => {
       props.fetchCareerPaths();
     });
   };
-
+  ```
 <Button variant="primary" data-id={course.id} onClick={event => handleDelete(event)} > Delete </Button>
 
 Add handleDelete event and add it to the button. Make sure your fetch URL matches the custom routes you made in step 4.
@@ -125,7 +126,7 @@ One thing to note is, I added "props.fetchCareerPaths()" after the deletion aler
 6. Add a course to career path
 
 //  actions/careerPathActions.js
-
+  ```
 export const editCareerPath = (careerPath, courseId) => {
   return dispatch => {
     return fetch(
@@ -141,9 +142,9 @@ export const editCareerPath = (careerPath, courseId) => {
       .catch(error => console.log(error));
   };
 };
-
+  ```
 // reducers/CareerPathReducers.js
-
+  ```
   case "EDIT_CAREER_PATH":
       let editedCareerPaths = state.careerPaths.map(careerPath => {
         if (careerPath.id === action.careerPath.id) {
@@ -152,11 +153,11 @@ export const editCareerPath = (careerPath, courseId) => {
           return careerPath;
         }
       });
-
+  ```
 I imported the action into my CareerPathContainer and passed it into editCareerPath page as a prop.
 
 // containers/CareerPathContainers.js
-
+  ```
 import React, { Component } from "react";
 import CareerPaths from "../components/career-paths/CareerPaths";
 import { connect } from "react-redux";
@@ -214,11 +215,11 @@ export default connect(
   mapStateToProps,
   mapDispatchToProps
 )(CareerPathContainer);
-
+  ```
 And I call the props editCareerPath on form submission.
 
 // component/editCareerPaths.js
-
+  ```
 handleOnSubmit = event => {
     event.preventDefault();
     this.props.editCareerPath(this.props.careerPath, this.state.courseId);
@@ -230,4 +231,4 @@ handleOnSubmit = event => {
 	<Form onSubmit={event => this.handleOnSubmit(event)}>
 	  // form content
   </Form>
-
+  ```
